@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout — VELO Store</title>
+{% load static %}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--bg:#f6f5f2;--surface:#ffffff;--ink:#0b0b0b;--muted:#6b6b66;--line:#e6e4dd;--accent:oklch(0.72 0.19 45);--accent-ink:#1a0a02;--display:"Archivo Black",Arial,sans-serif;--body:"Inter Tight",Arial,sans-serif;--mono:"JetBrains Mono",monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);min-height:100vh}
+
+  .top-bar{background:var(--ink);padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+  .logo{font-family:var(--display);font-size:20px;letter-spacing:0.04em;color:#f6f5f2;text-decoration:none;display:flex;align-items:baseline;gap:4px}
+  .logo .dot{width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block;transform:translateY(-2px)}
+  .back{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(246,245,242,0.7);text-decoration:none;display:flex;align-items:center;gap:8px}
+  .back:hover{color:#f6f5f2}
+
+  .layout{display:grid;grid-template-columns:1fr 380px;gap:0;max-width:1100px;margin:0 auto;padding:48px 28px;gap:48px}
+  @media(max-width:800px){.layout{grid-template-columns:1fr;padding:24px 18px}}
+
+  h1{font-family:var(--display);font-size:36px;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:36px}
+  .form-section{margin-bottom:28px}
+  .form-section h4{font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+  .form-row{margin-bottom:14px}
+  .form-row.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:480px){.form-row.two{grid-template-columns:1fr}}
+  label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-family:var(--mono);letter-spacing:0.1em;text-transform:uppercase}
+  input{border:1px solid var(--line);border-radius:2px;padding:13px 14px;font-family:var(--body);font-size:14px;background:var(--surface);color:var(--ink);outline:none;transition:border-color .2s;width:100%}
+  input:focus{border-color:var(--ink)}
+
+  /* Sidebar order summary */
+  .summary{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:28px;align-self:start;position:sticky;top:24px}
+  .summary h3{font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:-0.01em;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .sum-item{display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px}
+  .sum-item span:last-child{font-family:var(--mono)}
+  .sum-total{display:flex;justify-content:space-between;font-family:var(--display);font-size:22px;text-transform:uppercase;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+  .empty-msg{color:var(--muted);font-size:13px;text-align:center;padding:12px 0}
+
+  .submit-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:14px;background:var(--ink);color:#f6f5f2;padding:18px;font-family:var(--mono);font-size:12px;letter-spacing:0.16em;text-transform:uppercase;border:none;border-radius:999px;cursor:pointer;margin-top:20px;transition:background .2s}
+  .submit-btn:hover{background:var(--accent);color:var(--accent-ink)}
+  .submit-btn:disabled{opacity:.6;cursor:not-allowed}
+  .secure{text-align:center;margin-top:10px;font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px}
+
+  .error-msg{color:#c0392b;font-size:13px;margin-top:12px;padding:12px 14px;background:#fdf0ee;border:1px solid #f5c6c0;border-radius:3px;display:none}
+</style>
+</head>
+<body>
+{% csrf_token %}
+<div class="top-bar">
+  <a class="logo" href="/"><span>VELO</span><span class="dot"></span><span style="font-family:var(--mono);font-size:11px;letter-spacing:0.18em;opacity:.6;align-self:center;">STORE</span></a>
+  <a class="back" href="/">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+    Volver a la tienda
+  </a>
+</div>
+
+<div class="layout">
+  <!-- Form -->
+  <div>
+    <h1>Finalizar<br/>compra</h1>
+
+    <form id="checkoutForm">
+      <div class="form-section">
+        <h4>Contacto</h4>
+        <div class="form-row">
+          <label>Nombre completo *
+            <input type="text" name="customer_name" required placeholder="Juan Pérez" />
+          </label>
+        </div>
+        <div class="form-row two">
+          <label>Email *
+            <input type="email" name="customer_email" required placeholder="juan@email.com" />
+          </label>
+          <label>Teléfono
+            <input type="tel" name="customer_phone" placeholder="+54 11 1234-5678" />
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4>Dirección de envío</h4>
+        <div class="form-row two">
+          <label>Calle *
+            <input type="text" name="calle" required placeholder="Av. Corrientes" />
+          </label>
+          <label>Número *
+            <input type="text" name="numero" required placeholder="1234" />
+          </label>
+        </div>
+        <div class="form-row">
+          <label>Ciudad *
+            <input type="text" name="ciudad" required placeholder="Buenos Aires" />
+          </label>
+        </div>
+        <div class="form-row two">
+          <label>Provincia *
+            <input type="text" name="provincia" required placeholder="CABA" />
+          </label>
+          <label>Código Postal *
+            <input type="text" name="cp" required placeholder="1000" />
+          </label>
+        </div>
+      </div>
+
+      <div id="errorMsg" class="error-msg"></div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <span id="submitText">Ir a pagar con Mercado Pago</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </button>
+      <div class="secure">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Pago 100% seguro via Mercado Pago
+      </div>
+    </form>
+  </div>
+
+  <!-- Order summary sidebar -->
+  <div class="summary">
+    <h3>Tu pedido</h3>
+    <div id="summaryItems"><div class="empty-msg">Cargando carrito…</div></div>
+  </div>
+</div>
+
+<script>
+const ARS = n => '$' + Number(n).toLocaleString('es-AR');
+
+function getCsrfToken() {
+  return document.cookie.split(';')
+    .map(c => c.trim())
+    .find(c => c.startsWith('csrftoken='))
+    ?.split('=')[1] || '';
+}
+
+// Load cart from localStorage
+const cart = JSON.parse(localStorage.getItem('veloCart') || '[]');
+
+function renderSummary() {
+  const el = document.getElementById('summaryItems');
+  if (!cart.length) {
+    el.innerHTML = '<div class="empty-msg">Tu carrito está vacío. <a href="/">Volver a la tienda</a></div>';
+    return;
+  }
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const shipping = subtotal >= 50000 ? 0 : 8500;
+  const total = subtotal + shipping;
+
+  el.innerHTML =
+    cart.map(i => `
+      <div class="sum-item">
+        <span>${i.name} <span style="color:var(--muted)">×${i.qty}</span></span>
+        <span>${ARS(i.price * i.qty)}</span>
+      </div>
+    `).join('') +
+    `<div class="sum-item" style="color:var(--muted);font-size:12px">
+      <span>Envío</span><span>${shipping === 0 ? 'Gratis' : ARS(shipping)}</span>
+    </div>` +
+    `<div class="sum-total"><span>Total</span><span>${ARS(total)}</span></div>`;
+}
+
+document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!cart.length) { return; }
+
+  const btn = document.getElementById('submitBtn');
+  const txt = document.getElementById('submitText');
+  const err = document.getElementById('errorMsg');
+  btn.disabled = true;
+  txt.textContent = 'Procesando…';
+  err.style.display = 'none';
+
+  const fd = new FormData(e.target);
+  const payload = {
+    customer_name: fd.get('customer_name'),
+    customer_email: fd.get('customer_email'),
+    customer_phone: fd.get('customer_phone'),
+    shipping_address: {
+      calle: fd.get('calle'),
+      numero: fd.get('numero'),
+      ciudad: fd.get('ciudad'),
+      provincia: fd.get('provincia'),
+      cp: fd.get('cp'),
+    },
+    items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.qty })),
+  };
+
+  try {
+    const res = await fetch('/api/orders/checkout/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrfToken() },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (res.ok && data.init_point) {
+      localStorage.removeItem('veloCart');
+      window.location.href = data.init_point;
+    } else {
+      err.textContent = data.error || 'Ocurrió un error. Intentá nuevamente.';
+      err.style.display = 'block';
+      btn.disabled = false;
+      txt.textContent = 'Ir a pagar con Mercado Pago';
+    }
+  } catch {
+    err.textContent = 'Error de conexión. Verificá tu internet e intentá nuevamente.';
+    err.style.display = 'block';
+    btn.disabled = false;
+    txt.textContent = 'Ir a pagar con Mercado Pago';
+  }
+});
+
+renderSummary();
+</script>
+</body>
+</html>

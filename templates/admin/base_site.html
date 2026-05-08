@@ -1,0 +1,17 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | VELO Admin{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}">
+    VELO<span style="display:inline-block;width:7px;height:7px;background:#e07a3c;border-radius:50%;margin:0 3px 2px;"></span><span style="font-family:monospace;font-size:11px;letter-spacing:0.18em;font-weight:400;opacity:0.7;">STORE</span>
+  </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin_custom.css' %}" />
+{% endblock %}

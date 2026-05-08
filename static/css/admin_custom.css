@@ -1,0 +1,75 @@
+/* VELO Store — Admin custom styles */
+:root {
+  --admin-accent: #e07a3c;
+  --admin-dark: #0b0b0b;
+}
+
+/* Header */
+#header {
+  background: var(--admin-dark);
+  padding: 10px 20px;
+}
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+  color: #f6f5f2;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+#user-tools, #user-tools a {
+  color: rgba(246,245,242,0.7);
+}
+#user-tools a:hover { color: #f6f5f2; }
+
+/* Breadcrumbs */
+div.breadcrumbs {
+  background: #1a1a1a;
+  color: rgba(246,245,242,0.6);
+  border-bottom: none;
+}
+div.breadcrumbs a { color: rgba(246,245,242,0.8); }
+div.breadcrumbs a:hover { color: #f6f5f2; }
+
+/* Sidebar & modules */
+#nav-sidebar { background: #f6f5f2; }
+.module h2, .module caption, .inline-group h2 {
+  background: var(--admin-dark);
+  color: #f6f5f2;
+}
+
+/* Primary buttons */
+.button, input[type=submit], input[type=button],
+.submit-row input, a.button {
+  background: var(--admin-dark);
+  color: #f6f5f2;
+  border: none;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.button:hover, input[type=submit]:hover, input[type=button]:hover {
+  background: var(--admin-accent);
+  color: #1a0a02;
+}
+.button.default, input[type=submit].default {
+  background: var(--admin-accent);
+  color: #1a0a02;
+}
+.button.default:hover { background: var(--admin-dark); color: #f6f5f2; }
+
+/* Links */
+a:link, a:visited { color: var(--admin-dark); }
+a:hover { color: var(--admin-accent); }
+
+/* Selected rows */
+tr.selected { background: oklch(0.72 0.19 45 / 0.08) !important; }
+
+/* Change list actions */
+.object-tools a.addlink,
+.object-tools a.changelink {
+  background: var(--admin-dark);
+}
+.object-tools a:hover { background: var(--admin-accent) !important; }
+
+/* Dashboard app headers */
+.app-products > .section > table thead th,
+.app-orders > .section > table thead th {
+  background: #f0ede5;
+}
