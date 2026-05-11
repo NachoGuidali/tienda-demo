@@ -69,7 +69,7 @@ class OrderAdmin(admin.ModelAdmin):
     order_number_col.short_description = 'Orden'
 
     def total_display(self, obj):
-        return format_html('<strong>${:,.0f}</strong>', float(obj.total))
+        return format_html('<strong>${}</strong>', f'{float(obj.total):,.0f}')
     total_display.short_description = 'Total'
     total_display.admin_order_field = 'total'
 
@@ -111,9 +111,9 @@ class OrderAdmin(admin.ModelAdmin):
             '<tfoot><tr>'
             '<td colspan="2" style="padding-top:8px;border-top:1px solid #eee"><strong>Subtotal</strong></td>'
             '<td style="padding-top:8px;border-top:1px solid #eee;text-align:right;font-family:monospace">'
-            '<strong>${:,.0f}</strong></td>'
+            '<strong>${}</strong></td>'
             '</tr></tfoot>'
             '</table>',
-            rows, subtotal
+            rows, f'{subtotal:,.0f}'
         )
     items_display.short_description = 'Productos del pedido'

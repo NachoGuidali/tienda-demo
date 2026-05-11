@@ -321,22 +321,48 @@
   @media (max-width: 720px) {
     .nav { grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 18px; height: 64px; }
     .nav-cats { display: none; }
-    section { padding: 80px 18px; }
+    .icon-btn[aria-label="Cuenta"] { display: none; }
+    .hero { min-height: 500px; }
+    .hero-inner { padding: 0 18px 40px; }
+    .hero-title { font-size: clamp(28px, 9vw, 220px); }
+    .hero-title .line:nth-child(2) { padding-left: 3vw; }
+    .hero-meta { display: none; }
+    section { padding: 72px 18px; }
+    .section-head { margin-bottom: 32px; }
+    .cats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .cat-info { left: 14px; bottom: 14px; right: 14px; }
+    .cat-info h3 { font-size: clamp(16px, 4.5vw, 44px); }
+    .cat-info .arrow { width: 32px; height: 32px; }
+    .cat-info .arrow svg { width: 13px; height: 13px; }
+    .cat-tag { font-size: 9px; padding: 4px 8px; top: 10px; left: 10px; letter-spacing: 0.1em; max-width: calc(100% - 20px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .grid { grid-template-columns: repeat(2, 1fr); gap: 24px 12px; }
     .product-info .name { font-size: 13px; }
-    .feature-text { padding: 40px 28px; }
-    .feature-stats { gap: 24px; }
+    .feature-text { padding: 36px 24px; }
+    .feature-title { font-size: clamp(36px, 9vw, 132px); }
+    .feature-foot { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .feature-stats { margin-left: 0; gap: 32px; }
+    .feature-sub { max-width: 100%; }
     .strip-track { font-size: 40px; gap: 40px; }
     .strip-track span { gap: 40px; }
     .strip-track svg { width: 24px; height: 24px; }
     .foot-top { grid-template-columns: 1fr 1fr; }
     .foot-bot { grid-template-columns: 1fr; gap: 16px; text-align: center; }
     .pay-methods { flex-wrap: wrap; }
-    .hero-meta { display: none; }
-    .hero-title .line:nth-child(2) { padding-left: 4vw; }
     .newsletter { padding: 40px 24px; }
     .checkout-panel { padding: 24px 18px; }
     .co-row.two { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    section { padding: 56px 16px; }
+    .section-title { font-size: clamp(30px, 8vw, 80px); }
+    .cats { grid-template-columns: 1fr 1fr; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 16px 10px; }
+    .filter-bar { gap: 6px; padding: 14px 0; }
+    .chip-btn { padding: 7px 12px; font-size: 11px; }
+    .feature-title { font-size: clamp(32px, 8vw, 132px); }
+    .newsletter { padding: 36px 16px; }
+    .foot-top { grid-template-columns: 1fr; gap: 32px; }
+    .foot-brand { grid-column: auto; }
   }
 </style>
 </head>
@@ -587,7 +613,7 @@
         <span class="pay"><span class="dotpay"></span>Naranja</span>
         <span class="pay"><span class="dotpay"></span>Cabal</span>
       </div>
-      <div>Hecho en Buenos Aires</div>
+      <div>Desarrollo <a href="https://supregsolutions.com/">SupReg Solutions</a></div>
     </div>
   </div>
 </footer>
